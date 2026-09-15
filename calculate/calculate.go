@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+var ErrDivideByZero = errors.New("cannot divide by zero")
+
 func Shunt(expression string) ([]string, error) {
 	var output []string
 	var operators []byte
@@ -96,7 +98,7 @@ func Eval(r []string) (float64, error) {
 
 				case "/":
 					if num2 == 0 {
-						err = errors.New("cannot divide by zero")
+						err = ErrDivideByZero
 						return 0, err
 					}
 					calc = calc[:len(calc)-2]
@@ -106,7 +108,7 @@ func Eval(r []string) (float64, error) {
 					return 0, err
 				}
 			} else {
-				err = errors.New("expression is too short")
+				err = errors.New("not enough operands for operater")
 				return 0, err
 			}
 
