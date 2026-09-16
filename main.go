@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/goobnoobler/server/server"
+	"github.com/goobnoobler/calculator/server"
 )
 
 func main() {

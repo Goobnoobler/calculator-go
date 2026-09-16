@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/goobnoobler/server/calculate"
+	"github.com/goobnoobler/calculator/calculate"
 	"github.com/gorilla/mux"
 )
 

@@ -6,8 +6,20 @@ import (
 	"strings"
 )
 
-var ErrDivideByZero = errors.New("cannot divide by zero")
+//Sentinal errors
 
+var ErrUnmatchedParen = errors.New("unmatched closing parenthesis detected")
+var ErrUnclosedParen = errors.New("unclosed parenthesis detected")
+var ErrUnexpectedChar = errors.New("calculator only accepts digits and +-*/")
+
+var ErrDivideByZero = errors.New("cannot divide by zero")
+var ErrUnexpectedOperator = errors.New("unknown operator in expression")
+var ErrNotEnoughOperands = errors.New("not enough operands for operater")
+var ErrTooManyValues = errors.New("expression left more than one value")
+var ErrNoValue = errors.New("no answer returned")
+
+// The aim of this function is to convert human-readable 2*(4+3) format to reverse Polish notation 2,4,3,+,*
+// It follows the shunting yard algorithm which is used regularly for software-based calculators
 func Shunt(expression string) ([]string, error) {
 	var output []string
 	var operators []byte
@@ -44,12 +56,12 @@ func Shunt(expression string) ([]string, error) {
 				operators = operators[:len(operators)-1]
 			}
 			if len(operators) == 0 {
-				err = errors.New("unmatched closing parenthesis detected")
+				err = ErrUnmatchedParen
 				return nil, err
 			}
 			operators = operators[:len(operators)-1]
 		} else {
-			err = errors.New("calculator only accepts digits and +-*/")
+			err = ErrUnexpectedChar
 			return nil, err
 		}
 	}
@@ -60,7 +72,7 @@ func Shunt(expression string) ([]string, error) {
 
 	for i := len(operators); i > 0; i-- {
 		if operators[i-1] == '(' {
-			err = errors.New("unclosed parenthesis detected")
+			err = ErrUnclosedParen
 			return nil, err
 		}
 		output = append(output, string(operators[i-1]))
@@ -104,11 +116,11 @@ func Eval(r []string) (float64, error) {
 					calc = calc[:len(calc)-2]
 					calc = append(calc, num1/num2)
 				default:
-					err = errors.New("unknown character in expression")
+					err = ErrUnexpectedOperator
 					return 0, err
 				}
 			} else {
-				err = errors.New("not enough operands for operater")
+				err = ErrNotEnoughOperands
 				return 0, err
 			}
 
@@ -118,8 +130,11 @@ func Eval(r []string) (float64, error) {
 	}
 	if len(calc) == 1 {
 		return calc[0], nil
+	} else if len(calc) == 0 {
+		err = ErrNoValue
+		return 0, err
 	} else {
-		err = errors.New("answer returned 2 values")
+		err = ErrTooManyValues
 		return 0, err
 	}
 

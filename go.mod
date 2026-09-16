@@ -1,4 +1,4 @@
-module github.com/goobnoobler/server
+module github.com/goobnoobler/calculator
 
 
 go 1.27.1
