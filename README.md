@@ -4,9 +4,13 @@ An HTTP API that evaluates arithmetic expressions. Expressions arrive in ordinar
 
 The frontend that consumes this API lives in [calculator-vue](https://github.com/Goobnoobler/calculator-vue).
 
+This backend was almost completely hand written with the exception of some initial boilerplate code for the unit/integration tests and the writing of this Readme.
+
+I did use AI to give me hints when I was really stuck with the shunting-yard algorithm logic or when I really didn't understand something to do with Go.
+
 ## Requirements
 
-- Go 1.27.1 or newer
+- Go 1.21 or newer
 
 ## Running
 
